@@ -1,12 +1,14 @@
 const Joi = require("joi");
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Joi schema for register parameters
 const registerSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  email: Joi.string().email().required(),
-  mobile: Joi.string().required(), // You might want to add validation specific to mobile numbers
-  password: Joi.string().required().min(6), // You might want to add more password constraints
+  email: Joi.string().email().regex(emailRegex).required(),
+  mobile: Joi.number().required().max(12).min(11), // You might want to add validation specific to mobile numbers
+  password: Joi.string().required().min(6).max(12), // You might want to add more password constraints
 });
 
 // Joi schema for login parameters

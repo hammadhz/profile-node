@@ -18,7 +18,7 @@ const ClientSchema = new Schema(
       unique: true,
     },
     mobile: {
-      type: String,
+      type: Number,
       required: true,
     },
     password: {
@@ -28,6 +28,12 @@ const ClientSchema = new Schema(
     isProfileSet: {
       type: Boolean,
       default: false,
+    },
+    bio: {
+      type: String,
+    },
+    profile: {
+      type: String,
     },
   },
   {
