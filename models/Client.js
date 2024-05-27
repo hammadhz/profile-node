@@ -27,6 +27,7 @@ const ClientSchema = new Schema(
     },
     isProfileSet: {
       type: Boolean,
+      default: false,
     },
   },
   {

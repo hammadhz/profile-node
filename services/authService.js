@@ -38,6 +38,7 @@ const loginService = async (loginParam) => {
     }
     const { email, password } = loginParam;
     const findUser = await Client.findOne({ email: email });
+    console.log(findUser);
     if (findUser) {
       const isPasswordMatch = await bcrypt.compare(password, findUser.password);
       if (isPasswordMatch) {
