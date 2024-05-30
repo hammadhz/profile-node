@@ -3,9 +3,6 @@ const Client = require("../models/Client");
 const setProfileSerice = async (profileParams, fileParams, user) => {
   try {
     const { bio, isProfileSet } = profileParams;
-    console.log(bio, isProfileSet);
-    console.log(user);
-    console.log(fileParams, "file");
     if (user._id) {
       await Client.findByIdAndUpdate(
         user._id,

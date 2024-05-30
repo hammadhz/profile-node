@@ -7,9 +7,9 @@ const setProfileCtrl = async (req, res) => {
       req.file,
       req.user
     );
-    res.json(setProfileSerRes);
+    res.status(200).json(setProfileSerRes);
   } catch (error) {
-    res.json({ message: error });
+    res.status(500).json({ message: error });
   }
 };
 

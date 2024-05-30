@@ -2,19 +2,19 @@ const { createUserService, loginService } = require("../services/authService");
 
 const createUser = async (req, res) => {
   try {
-    const createSerRes = await createUserService(req.body);
-    res.json(createSerRes);
+    const { message, statusCode, success } = await createUserService(req.body);
+    res.status(statusCode).json({ message, success });
   } catch (error) {
-    res.json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const login = async (req, res) => {
   try {
-    const loginSerRes = await loginService(req.body);
-    res.json(loginSerRes);
+    const { message, statusCode, success } = await loginService(req.body);
+    res.status(statusCode).json({ message, success, statusCode });
   } catch (error) {
-    res.json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 

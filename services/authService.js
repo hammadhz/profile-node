@@ -8,11 +8,19 @@ const createUserService = async (registerParam) => {
     const { firstName, lastName, email, mobile, password } = registerParam;
     const { error } = validateRegister(registerParam);
     if (error) {
-      return { message: error.details[0].message, fail: true };
+      return {
+        message: error.details[0].message,
+        success: false,
+        statusCode: 400,
+      };
     }
     const findUser = await Client.find({ email: email });
     if (findUser.lenght > 0) {
-      throw new Error("User Already Exits!");
+      return {
+        message: "User Already Exits!",
+        success: false,
+        statusCode: 409,
+      };
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
       const client = new Client({
@@ -23,10 +31,17 @@ const createUserService = async (registerParam) => {
         password: hashedPassword,
       });
       await client.save();
-      return { message: "User Register Successfully", success: true };
+      return {
+        message: "User Register Successfully",
+        success: true,
+        statusCode: 201,
+      };
     }
   } catch (error) {
-    return { message: error?.errorResponse?.errmsg, fail: true };
+    return {
+      message: error?.errorResponse?.errmsg,
+      success: false,
+    };
   }
 };
 
@@ -34,7 +49,11 @@ const loginService = async (loginParam) => {
   try {
     const { error } = validateLogin(loginParam);
     if (error) {
-      return { message: error.details[0].message, fail: true };
+      return {
+        message: error.details[0].message,
+        success: false,
+        statusCode: 400,
+      };
     }
     const { email, password } = loginParam;
     const findUser = await Client.findOne({ email: email });
@@ -54,13 +73,17 @@ const loginService = async (loginParam) => {
           isProfileSet: findUser.isProfileSet,
         };
       } else {
-        return { message: "Invalid Credentails", fail: true };
+        return {
+          message: "Invalid Credentails",
+          success: false,
+          statusCode: 401,
+        };
       }
     } else {
-      return { message: "User Not Exists!", fail: true };
+      return { message: "User Not Exists!", success: false, statusCode: 404 };
     }
   } catch (error) {
-    return { message: error?.errorResponse?.errmsg, fail: true };
+    return { message: error?.errorResponse?.errmsg, success: false };
   }
 };
 
